@@ -34,18 +34,20 @@ def select_features_boruta(X: pd.DataFrame, y, model, verbose=5, random_state=0,
     return columns
 
 # @njit
-# def select_features_borutashap(X, y, classification, model=None, verbose=True, log=True):
-#
-#     feat_selector = BorutaShap(importance_measure='shap',
-#                               classification=classification)
-#     if model:
-#         feat_selector = BorutaShap(model=model, importance_measure='shap',
-#                                    classification=classification)
-#
-#     feat_selector.fit(X=X, y=y, n_trials=100, sample=False,
-#                          train_or_test='test', normalize=True,
-#                          verbose=verbose)
-#
-#     if log:
-#         feat_selector.plot(which_features='all')
-#         feat_selector.Subset()
+def select_features_borutashap(X, y, classification, model=None, verbose=True, log=True):
+
+    feat_selector = BorutaShap(importance_measure='shap',
+                              classification=classification)
+    if model:
+        feat_selector = BorutaShap(model=model, importance_measure='shap',
+                                   classification=classification)
+
+    feat_selector.fit(X=X, y=y, n_trials=100, sample=False,
+                         train_or_test='test', normalize=True,
+                         verbose=verbose)
+
+    if log:
+        feat_selector.plot(which_features='all')
+        feat_selector.Subset()
+
+    return feat_selector.accepted_columns
